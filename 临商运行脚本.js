@@ -1,4 +1,8 @@
- 
+// 自动登录密码
+var password = "aaaaaaaa"; 
+//止损点数
+var limitlossvalue = 15;
+
 var window = floaty.window(
     <frame>
         <vertical>
@@ -25,7 +29,7 @@ window.actionstart.click(()=>{
             }
 
             var stoploss = id("edt_zorder_stop_loss").findOne();
-            price -= 15 * isbuyer;
+            price -= limitlossvalue * isbuyer;
             stoploss.setText("" + price); 
             
         });
@@ -73,7 +77,7 @@ function tradesetting() {
         } 
         var intmpp = parseInt(mapptext); 
 
-        intmpp -= 15 * isbuyer;
+        intmpp -= limitlossvalue * isbuyer;
         stoploss.setText("" + intmpp); 
     }
 }
@@ -92,7 +96,7 @@ function login() {
     id("edt_login_codes").findOne().setText(ocrstr);
  
     sleep(500);
-    id("edt_login_password").findOne().setText("aaaa1111");
+    id("edt_login_password").findOne().setText(password);
     sleep(500);
     if(ocrstr.length == 4) {
         id("tv_login").findOne().click();
