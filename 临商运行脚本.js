@@ -3,6 +3,10 @@ var password = "aaaaaaaa";
 //止损点数
 var limitlossvalue = 15;
 
+var iscurrent = false;
+var istradewindow = false;
+var buyerstate = 0;
+
 var window = floaty.window(
     <frame>
         <vertical>
@@ -17,17 +21,17 @@ var window = floaty.window(
 window.exitOnClose();
 
 window.actionstart.click(()=>{
-    if(isbuyer != 0) {
+    if(buyerstate != 0) {
         threads.start(function(){
             var inputtext = id("edt_zorder_price").findOne(100);
             if(inputtext) {
                 var price = parseInt(inputtext.text());          
-                price -= isbuyer;
+                price -= buyerstate;
                 inputtext.setText("" + price);
             }
 
             var stoploss = id("edt_zorder_stop_loss").findOne();
-            price -= limitlossvalue * isbuyer;
+            price -= limitlossvalue * buyerstate;
             stoploss.setText("" + price); 
             
         });
@@ -36,8 +40,7 @@ window.actionstart.click(()=>{
     }
 });
 
-window.action.click(()=>{
-    console.log("action click");     
+window.action.click(()=>{ 
     threads.start(function(){
         tradesetting();
     });
@@ -64,9 +67,9 @@ function tradesetting() {
     var bs = id("tv_zorder_bs").findOne(100); 
     if(bs) {
         if(bs.text()=="买") {
-            isbuyer = 1; 
+            buyerstate = 1; 
         } else {
-            isbuyer = -1;
+            buyerstate = -1;
         }
         var stoploss = id("edt_zorder_stop_loss").findOne();
         if(!stoploss.enabled()) {
@@ -75,15 +78,14 @@ function tradesetting() {
         } 
         var intmpp = parseInt(mapptext); 
 
-        intmpp -= limitlossvalue * isbuyer;
+        intmpp -= limitlossvalue * buyerstate;
         stoploss.setText("" + intmpp); 
     }
 }
 
 function login() { 
+    console.log("login in...");
     var codeimg = id("validate_login_codes").findOne();
-    console.log(codeimg.bounds());
-
     images.requestScreenCapture();
     var img = images.captureScreen();
     var res = ocr(img,codeimg.bounds());
@@ -102,9 +104,7 @@ function login() {
 
 window.setPosition(device.width-360,device.height-690);
 
-var iscurrent = false;
-var istradewindow = false;
-var isbuyer = 0;
+
 
 //页面监控
 threads.start(function(){
@@ -119,7 +119,7 @@ threads.start(function(){
                 istradewindow = true;         
             } else {
                 istradewindow = false;
-                isbuyer = 0;
+                buyerstate = 0;
             }
             if(text("登录").findOne(100)) {
                     login();
