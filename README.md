@@ -5,6 +5,8 @@
 
 使用方法：
 1、打开https://github.com/SuperMonster003/AutoJs6/releases/tag/v6.3.3，下载Autojs6最新版，并上传到手机进行安装
+
 2、在手机根目录建立目录：脚本
-3、下载本项目main.js至脚本目录
+
+3、下载本项目 临商运行脚本.js至脚本目录
 
