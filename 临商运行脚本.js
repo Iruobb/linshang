@@ -17,11 +17,9 @@ var window = floaty.window(
 window.exitOnClose();
 
 window.actionstart.click(()=>{
-    console.log("actionstart click"); 
     if(isbuyer != 0) {
         threads.start(function(){
             var inputtext = id("edt_zorder_price").findOne(100);
-            console.log(inputtext.text());
             if(inputtext) {
                 var price = parseInt(inputtext.text());          
                 price -= isbuyer;
@@ -92,7 +90,6 @@ function login() {
  
     var ocrstr = res[0];
     ocrstr = ocrstr.replace(/ /g,"");
-    console.log(ocrstr);
     id("edt_login_codes").findOne().setText(ocrstr);
  
     sleep(500);
@@ -114,7 +111,6 @@ threads.start(function(){
     while(true) {
         if('gnnt.MEBS.espot.m6.lygj' == currentPackage()) {
             if(!iscurrent) {
-                console.log("show window");
                 window.setPosition(device.width-360,device.height-690);
             }
             iscurrent = true;
